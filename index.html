@@ -572,6 +572,7 @@
         }
 
         function logout() {
+            document.body.classList.remove('website-active');
             document.getElementById('mainWebsite').style.display = 'none';
             document.getElementById('accessGate').style.display = 'flex';
             showAccessButtons();

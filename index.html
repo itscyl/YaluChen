@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome - Personal Website</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .access-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            transform: translateY(0);
+            transition: all 0.3s ease;
+        }
+
+        .access-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .access-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .access-btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .professional-btn {
+            background: linear-gradient(45deg, #2196F3, #1976D2);
+            color: white;
+        }
+
+        .professional-btn:hover {
+            background: linear-gradient(45deg, #1976D2, #0D47A1);
+            transform: translateY(-2px);
+        }
+
+        .personal-btn {
+            background: linear-gradient(45deg, #FF6B35, #F7931E);
+            color: white;
+        }
+
+        .personal-btn:hover {
+            background: linear-gradient(45deg, #E55722, #D67B00);
+            transform: translateY(-2px);
+        }
+
+        .access-code-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .access-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            letter-spacing: 2px;
+            transition: border-color 0.3s ease;
+        }
+
+        .access-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(45deg, #5a67d8, #6a4c93);
+            transform: translateY(-2px);
+        }
+
+        .back-btn {
+            background: transparent;
+            color: #666;
+            border: 1px solid #ddd;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .back-btn:hover {
+            background: #f5f5f5;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 480px) {
+            .access-container {
+                padding: 2rem;
+            }
+            .logo {
+                font-size: 2rem;
+            }
+        }
+
+        /* Main Website Styles */
+        .main-website {
+            display: none;
+            min-height: 100vh;
+            background: #f8f9fa;
+        }
+
+        .navbar {
+            background: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            padding: 0.5rem 0;
+        }
+
+        .nav-link:hover {
+            color: #667eea;
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 200px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .nav-item:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 1rem;
+            color: #333;
+            text-decoration: none;
+            border-bottom: 1px solid #eee;
+            transition: background 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+            background: #f8f9fa;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .content {
+            margin-top: 80px;
+            padding: 2rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .page-section {
+            display: none;
+            padding: 2rem 0;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .page-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .home-section {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .welcome-text {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .section-indicator {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        .logout-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            z-index: 1001;
+        }
+
+        .logout-btn:hover {
+            background: #c0392b;
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .content {
+                margin-top: 120px;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Access Gate -->
+    <div class="access-container" id="accessGate">
+        <div class="logo">Welcome</div>
+        <div class="subtitle">Choose your access type</div>
+        
+        <div class="access-buttons" id="accessButtons">
+            <button class="access-btn professional-btn" onclick="showAccessCode('professional')">
+                Professional
+            </button>
+            <button class="access-btn personal-btn" onclick="showAccessCode('personal')">
+                Personal
+            </button>
+        </div>
+
+        <div class="access-code-section" id="accessCodeSection">
+            <input type="password" class="access-input" id="accessCodeInput" placeholder="Enter Access Code" maxlength="10">
+            <button class="submit-btn" onclick="verifyAccess()">Enter</button>
+            <div class="error-message" id="errorMessage">Invalid access code. Please try again.</div>
+            <button class="back-btn" onclick="showAccessButtons()">← Back</button>
+        </div>
+    </div>
+
+    <!-- Main Website -->
+    <div class="main-website" id="mainWebsite">
+        <button class="logout-btn" onclick="logout()">Logout</button>
+        
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="#" class="nav-logo" onclick="showSection('home')">Home</a>
+                
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" onclick="showSection('about')">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Projects</a>
+                        <div class="dropdown" id="projectsDropdown">
+                            <!-- Projects will be dynamically added here -->
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" onclick="showSection('story')">Story</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" onclick="showSection('other')">Other</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="content">
+            <!-- Home Section -->
+            <div class="page-section active" id="home">
+                <div class="home-section">
+                    <div class="section-indicator" id="sectionIndicator">Professional Section</div>
+                    <h1 class="welcome-text">Welcome to My Website</h1>
+                    <div class="page-content">
+                        <p>This is the home page. Content will differ based on whether you accessed the professional or personal section.</p>
+                        <p id="sectionSpecificContent"><!-- Dynamic content based on section --></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- About Section -->
+            <div class="page-section" id="about">
+                <h2 class="page-title">About Me</h2>
+                <div class="page-content" id="aboutContent">
+                    <p>About me content will be displayed here.</p>
+                </div>
+            </div>
+
+            <!-- Story Section -->
+            <div class="page-section" id="story">
+                <h2 class="page-title">My Story</h2>
+                <div class="page-content" id="storyContent">
+                    <p>My story content will be displayed here.</p>
+                </div>
+            </div>
+
+            <!-- Other Section -->
+            <div class="page-section" id="other">
+                <h2 class="page-title">Other</h2>
+                <div class="page-content" id="otherContent">
+                    <p>Other content will be displayed here.</p>
+                </div>
+            </div>
+
+            <!-- Dynamic Project Sections -->
+            <div id="dynamicSections"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentSection = '';
+        let currentAccessType = '';
+
+        // Access codes (change these to your desired codes)
+        const ACCESS_CODES = {
+            professional: 'PROF2024',
+            personal: 'PERS2024'
+        };
+
+        // Content for different sections
+        const CONTENT = {
+            professional: {
+                sectionIndicator: 'Professional Section',
+                home: 'Welcome to my professional portfolio. Here you can find information about my work, projects, and professional journey.',
+                about: 'I am a dedicated professional with expertise in my field. My professional background includes...',
+                story: 'My professional journey began when...',
+                other: 'Professional achievements, certifications, and additional information...',
+                projects: [
+                    { name: 'Project Alpha', id: 'project-alpha', content: 'Professional project Alpha details...' },
+                    { name: 'Project Beta', id: 'project-beta', content: 'Professional project Beta details...' },
+                    { name: 'Case Study', id: 'case-study', content: 'Professional case study details...' }
+                ]
+            },
+            personal: {
+                sectionIndicator: 'Personal Section',
+                home: 'Welcome to my personal space. This is where I share my thoughts, hobbies, and personal projects.',
+                about: 'On a personal note, I enjoy various hobbies and interests outside of work...',
+                story: 'My personal story and journey through life...',
+                other: 'Personal interests, hobbies, and miscellaneous content...',
+                projects: [
+                    { name: 'Personal Blog', id: 'personal-blog', content: 'My personal blog and thoughts...' },
+                    { name: 'Photography', id: 'photography', content: 'My photography collection and experiences...' },
+                    { name: 'Travel Diary', id: 'travel-diary', content: 'My travel experiences and memories...' }
+                ]
+            }
+        };
+
+        function showAccessCode(type) {
+            currentSection = type;
+            document.getElementById('accessButtons').style.display = 'none';
+            document.getElementById('accessCodeSection').style.display = 'block';
+            document.getElementById('accessCodeInput').focus();
+        }
+
+        function showAccessButtons() {
+            document.getElementById('accessButtons').style.display = 'flex';
+            document.getElementById('accessCodeSection').style.display = 'none';
+            document.getElementById('accessCodeInput').value = '';
+            document.getElementById('errorMessage').style.display = 'none';
+        }
+
+        function verifyAccess() {
+            const inputCode = document.getElementById('accessCodeInput').value;
+            const correctCode = ACCESS_CODES[currentSection];
+
+            if (inputCode === correctCode) {
+                currentAccessType = currentSection;
+                document.getElementById('accessGate').style.display = 'none';
+                document.getElementById('mainWebsite').style.display = 'block';
+                loadContent();
+                showSection('home');
+            } else {
+                document.getElementById('errorMessage').style.display = 'block';
+                document.getElementById('accessCodeInput').value = '';
+            }
+        }
+
+        function loadContent() {
+            const content = CONTENT[currentAccessType];
+            
+            // Update section indicator
+            document.getElementById('sectionIndicator').textContent = content.sectionIndicator;
+            
+            // Update section-specific content
+            document.getElementById('sectionSpecificContent').textContent = content.home;
+            document.getElementById('aboutContent').innerHTML = `<p>${content.about}</p>`;
+            document.getElementById('storyContent').innerHTML = `<p>${content.story}</p>`;
+            document.getElementById('otherContent').innerHTML = `<p>${content.other}</p>`;
+
+            // Load projects dropdown and sections
+            loadProjects(content.projects);
+        }
+
+        function loadProjects(projects) {
+            const dropdown = document.getElementById('projectsDropdown');
+            const dynamicSections = document.getElementById('dynamicSections');
+            
+            // Clear existing content
+            dropdown.innerHTML = '';
+            dynamicSections.innerHTML = '';
+
+            // Add projects to dropdown and create sections
+            projects.forEach(project => {
+                // Add to dropdown
+                const dropdownItem = document.createElement('a');
+                dropdownItem.href = '#';
+                dropdownItem.className = 'dropdown-item';
+                dropdownItem.textContent = project.name;
+                dropdownItem.onclick = () => showSection(project.id);
+                dropdown.appendChild(dropdownItem);
+
+                // Create project section
+                const section = document.createElement('div');
+                section.className = 'page-section';
+                section.id = project.id;
+                section.innerHTML = `
+                    <h2 class="page-title">${project.name}</h2>
+                    <div class="page-content">
+                        <p>${project.content}</p>
+                    </div>
+                `;
+                dynamicSections.appendChild(section);
+            });
+        }
+
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.page-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show selected section
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+        }
+
+        function logout() {
+            document.getElementById('mainWebsite').style.display = 'none';
+            document.getElementById('accessGate').style.display = 'flex';
+            showAccessButtons();
+            currentAccessType = '';
+            currentSection = '';
+        }
+
+        // Handle Enter key in access code input
+        document.getElementById('accessCodeInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                verifyAccess();
+            }
+        });
+    </script>
+</body>
+</html>
